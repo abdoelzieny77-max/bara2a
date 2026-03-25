@@ -3,10 +3,10 @@
     <title>hello</title>
     <style>
       #installBtn {
-  background: #22c55e;
-  width: 100%;
-  margin-bottom: 10px;
-}
+        background: #22c55e;
+        width: 100%;
+        margin-bottom: 10px;
+      }
     </style>
   </head>
   <body>
@@ -17,31 +17,31 @@
         navigator.serviceWorker.register('sw.js')
           .then(() => console.log('SW Registered'));
         }
-</script>
+    </script>
     <script>
-let deferredPrompt;
-const installBtn = document.getElementById('installBtn');
+      let deferredPrompt;
+      const installBtn = document.getElementById('installBtn');
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'block';
-});
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'block';
+        });
 
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
 
-  deferredPrompt.prompt();
+        deferredPrompt.prompt();
 
-  const { outcome } = await deferredPrompt.userChoice;
+        const { outcome } = await deferredPrompt.userChoice;
 
-  if (outcome === 'accepted') {
-    console.log('User installed the app');
-  }
+        if (outcome === 'accepted') {
+          console.log('User installed the app');
+        }
 
-  deferredPrompt = null;
-  installBtn.style.display = 'none';
-});
-</script>
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+        });
+      </script>
   </body>
 </html>
