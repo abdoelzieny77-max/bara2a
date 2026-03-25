@@ -1,14 +1,47 @@
 <html>
   <head>
     <title>hello</title>
+    <style>
+      #installBtn {
+  background: #22c55e;
+  width: 100%;
+  margin-bottom: 10px;
+}
+    </style>
   </head>
   <body>
     <h1>test</h1>
+    <button id="installBtn" style="display:none;">📲 تثبيت التطبيق</button>
     <script>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
           .then(() => console.log('SW Registered'));
         }
+</script>
+    <script>
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === 'accepted') {
+    console.log('User installed the app');
+  }
+
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+});
 </script>
   </body>
 </html>
